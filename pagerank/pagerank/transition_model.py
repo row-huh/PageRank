@@ -1,28 +1,12 @@
 import os
-import random
 import re
-import sys
 
-
-DAMPING = 0.85
-SAMPLES = 10000
-
-
+damping_factor = 0.85
 
 def main():
-    if len(sys.argv) != 2:
-        sys.exit("Usage: python pagerank.py corpus")
-    corpus = crawl(sys.argv[1])
-    ranks = sample_pagerank(corpus, DAMPING, SAMPLES)
-    print(f"PageRank Results from Sampling (n = {SAMPLES})")
-    for page in sorted(ranks):
-        print(f"  {page}: {ranks[page]:.4f}")
-    ranks = iterate_pagerank(corpus, DAMPING)
-    print(f"PageRank Results from Iteration")
-    for page in sorted(ranks):
-        print(f"  {page}: {ranks[page]:.4f}")
-
-
+    directory = 'corpus1'
+    corpus = crawl(directory)
+    transition_model(corpus, 'search.html', damping_factor)
 
 def crawl(directory):
     """
@@ -49,7 +33,6 @@ def crawl(directory):
         )
 
     return pages
-
 
 
 def transition_model(corpus, page, damping_factor):
@@ -96,40 +79,8 @@ def transition_model(corpus, page, damping_factor):
     for p in pages_of_interest:
         new_dict[p] += link_following_possibility
         
-    return new_dict   
-
-
-
-def sample_pagerank(corpus, damping_factor, n):
-    """
-    Return PageRank values for each page by sampling `n` pages
-    according to transition model, starting with a page at random.
-
-    Return a dictionary where keys are page names, and values are
-    their estimated PageRank value (a value between 0 and 1). All
-    PageRank values should sum to 1.
-    """
     
-    
-    
-    raise NotImplementedError
-
-
-
-def iterate_pagerank(corpus, damping_factor):
-    """
-    Return PageRank values for each page by iteratively updating
-    PageRank values until convergence.
-
-    Return a dictionary where keys are page names, and values are
-    their estimated PageRank value (a value between 0 and 1). All
-    PageRank values should sum to 1.
-    """
-    
-    
-    raise NotImplementedError
-
-
-
-if __name__ == "__main__":
+    return new_dict
+         
+if __name__=='__main__':
     main()
